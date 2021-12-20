@@ -1,6 +1,6 @@
-from PIL import Image, ImageFilter, ImageEnhance
+from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageOps, ImageChops
 import numpy
-from random import randrange
+from random import randrange, choice
 
 def blur_image(image):
     blurry = image.filter(ImageFilter.BLUR)
@@ -21,6 +21,14 @@ def edge_detector(image):
     
     edged = image.filter(ImageFilter.Kernel(size=(3,3), kernel=edge_detector.flatten(), scale=0.2))
     return edged
+
+def invert(image):
+    im = ImageOps.invert(image)
+    return im
+
+def chops(image):
+    im = ImageChops.offset(image, int(image.size[0]/2))
+    return im
 
 def max_image(image):
     maxy = image.filter(ImageFilter.MaxFilter(size=5))
@@ -47,7 +55,7 @@ def colorfy(image):
     return colored
 
 def filterify(image):
-    r = randrange(1,8)
+    r = randrange(1,10)
 
     if r == 1:
         image = colorfy(image)
@@ -65,6 +73,12 @@ def filterify(image):
         image = edge_detector(image)
     elif r == 7:
         image = enhance_edges(image)
+    elif r == 8:
+        image = invert(image)
+    elif r == 9:
+        image = chops(image)
+    else:
+        pass
 
     return image
 
@@ -78,6 +92,27 @@ def starify(background, image, angle, alpha):
     background.paste(image, (0,0), image)
     return background
 
+def draw_lines(image):
+    draw = ImageDraw.Draw(image)
+    colors = ["black","white","red","orange","yellow","green","blue","purple"]
+
+    line_color = choice(colors)
+
+    #top
+    for i in range(0, image.size[0], randrange(50,image.size[0])):
+        draw.line((i,0) + (image.size[0]/2,image.size[1]/2), width = randrange(1,8),fill=line_color)
+
+    #bottom
+    for i in range(0, image.size[0], randrange(50, image.size[0])):
+        draw.line((i,image.size[1]) + (image.size[0]/2,image.size[1]/2), width = randrange(2,6),fill=line_color)
+
+    #left
+    for i in range(0, image.size[1], randrange(50,image.size[0])):
+        draw.line((0,i) + (image.size[0]/2,image.size[1]/2), width = randrange(1,9),fill=line_color)
+        
+
+    return image
+
 def create_new_star():
 
     image = Image.open("bouyant.jpg")
@@ -86,7 +121,7 @@ def create_new_star():
     angle = 90
     alpha = 255
 
-    for i in range(4):
+    for i in range(3):
         star = starify(star, image, angle, alpha)
         alpha = randrange(110,130)
         angle += 90
@@ -94,7 +129,14 @@ def create_new_star():
     star = filterify(star)
     enhancer = ImageEnhance.Contrast(star)
 
-    star = enhancer.enhance(1)
+    star = enhancer.enhance(5)
+
+    if randrange(1,10) < 5:
+        star = draw_lines(star)
+
+    if randrange(1,10) < 2.5:
+        star = chops(star)
+
     star.show()
 
 if __name__ == "__main__":
