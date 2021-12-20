@@ -131,7 +131,7 @@ def create_new_star():
 
     star = enhancer.enhance(5)
 
-    if randrange(1,10) < 5:
+    if randrange(1,10) < 2:
         star = draw_lines(star)
 
     if randrange(1,10) < 2.5:
