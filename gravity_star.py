@@ -1,6 +1,10 @@
+from os import name
 from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageOps, ImageChops
 import numpy
 from random import randrange, choice
+
+names = ["jewel","star","ruby","emerald","moon","planet","galaxy","shard","fragment","eye","wheel","pattern"]
+descriptions = ["chaos","dark","light","ruptured","timeless","broken","spidery","forever"]
 
 def blur_image(image):
     blurry = image.filter(ImageFilter.BLUR)
@@ -137,9 +141,12 @@ def create_new_star():
     if randrange(1,10) < 2.5:
         star = chops(star)
 
+    star_name = choice(descriptions) + "_" + choice(names) + str(randrange(1000)) 
+    star.save(star_name + ".jpg", "JPEG")
     star.show()
 
 if __name__ == "__main__":
     print("hello gravity")
+    print("generating a new star")
     create_new_star()
     
