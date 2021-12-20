@@ -10,6 +10,12 @@ It is recommneded that you create a new environemnt to install the project depen
 
 All gravity stars are created using the same image: bouyant.jpg, which is included with the project.
 
+A generative art project about painting singularities: each piece in the **Gravity Star** collection was produced from a single seed image. A combination of techniques conjures stars from the nether, shining like digital poetry.
+
+Producing **Gravity Stars** requires a randomized algorithm and the Python Imaging Library (PIL). The project’s source code is available on Github.
+
+Diamonds in rhizomatic space, gravity stars explode into a blend of digital and analog art processes.
+
 ![bouyant](https://github.com/ramza/gravity_star/blob/main/bouyant.jpg)
 
 ## Example Images
