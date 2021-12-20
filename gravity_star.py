@@ -27,12 +27,12 @@ def edge_detector(image):
     return edged
 
 def invert(image):
-    im = ImageOps.invert(image)
-    return im
+    inverted = ImageOps.invert(image)
+    return inverted
 
 def chops(image):
-    im = ImageChops.offset(image, int(image.size[0]/2))
-    return im
+    choppy = ImageChops.offset(image, int(image.size[0]/2))
+    return choppy
 
 def max_image(image):
     maxy = image.filter(ImageFilter.MaxFilter(size=5))
