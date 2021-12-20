@@ -142,7 +142,7 @@ def create_new_star():
         star = chops(star)
 
     star_name = choice(descriptions) + "_" + choice(names) + str(randrange(1000)) 
-    star.save(star_name + ".jpg", "JPEG")
+    star.save(star_name + ".png", "PNG")
     star.show()
 
 if __name__ == "__main__":

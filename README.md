@@ -18,8 +18,8 @@ All gravity stars are created using the same image: bouyant.jpg, which is includ
 
 ## Example Images
 
-**Timeless**
-![timeless](https://github.com/ramza/gravity_star/blob/main/timeless_x672.jpg)
+**Timeless Shard**
+![timeless](https://github.com/ramza/gravity_star/blob/main/forever_shard801.jpg)
 
 **The Forever Jewel**
-![forever](https://github.com/ramza/gravity_star/blob/main/forever_jewel953.jpg)
+![forever](https://github.com/ramza/gravity_star/blob/main/timeless_shard292.jpg)
