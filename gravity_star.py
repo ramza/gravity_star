@@ -59,7 +59,7 @@ def colorfy(image):
     return colored
 
 def filterify(image):
-    r = randrange(1,10)
+    r = randrange(1,11)
 
     if r == 1:
         image = colorfy(image)
@@ -81,10 +81,27 @@ def filterify(image):
         image = invert(image)
     elif r == 9:
         image = chops(image)
+    elif r == 10:
+        image = color_shift(image)
     else:
         pass
 
     return image
+
+def color_shift(image):
+
+    i = image.convert('LA')
+    L,A = i.split()
+    S, = Image.new('L', i.size, randrange(100,255)).split()
+
+    colorified = Image.merge('RGBA', (L,L,S,A))
+    r = randrange(1,3)
+    if r == 1:
+        colorified = Image.merge('RGBA', (S,L,L,A))
+    if r == 2:
+        colorified = Image.merge('RGBA', (L,S,L,A))
+
+    return colorified
 
 def starify(background, image, angle, alpha):
 
@@ -120,12 +137,13 @@ def draw_lines(image):
 def create_new_star():
 
     image = Image.open("bouyant.jpg")
-    star = Image.open("bouyant.jpg")
+    star = Image.open("forever_shard801.jpg")
     
     angle = 90
     alpha = 255
+    steps = randrange(3,7)
 
-    for i in range(3):
+    for i in range(steps):
         star = starify(star, image, angle, alpha)
         alpha = randrange(110,130)
         angle += 90
@@ -134,6 +152,11 @@ def create_new_star():
     enhancer = ImageEnhance.Contrast(star)
 
     star = enhancer.enhance(5)
+
+    enhancer = ImageEnhance.Brightness(star)
+    
+    factor = randrange(1,5)
+    star = enhancer.enhance(factor)
 
     if randrange(1,10) < 2:
         star = draw_lines(star)
