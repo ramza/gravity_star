@@ -1,10 +1,11 @@
 from os import name
+from turtle import st
 from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageOps, ImageChops
 import numpy
-from random import randrange, choice
+from random import randint, randrange, choice
 
-names = ["jewel","star","ruby","emerald","moon","planet","galaxy","shard","fragment","eye","wheel","pattern"]
-descriptions = ["chaos","dark","light","ruptured","timeless","broken","spidery","forever"]
+names = ["jewel","star","ruby","emerald","moon","planet","galaxy","shard","fragment","eye","wheel","pattern","reality","ghost","flower","eye"]
+descriptions = ["green","chaos","dark","light","ruptured","timeless","broken","spidery","forever","ruby","cobalt","diamond","starlight","twilight"]
 
 def blur_image(image):
     blurry = image.filter(ImageFilter.BLUR)
@@ -27,8 +28,12 @@ def edge_detector(image):
     return edged
 
 def invert(image):
-    inverted = ImageOps.invert(image)
+    inverted = ImageOps.invert( image.convert('RGB'))
     return inverted
+
+def greyscale(image):
+    grey = image.convert("1")
+    return grey
 
 def chops(image):
     choppy = ImageChops.offset(image, int(image.size[0]/2))
@@ -59,7 +64,7 @@ def colorfy(image):
     return colored
 
 def filterify(image):
-    r = randrange(1,11)
+    r = randrange(1,12)
 
     if r == 1:
         image = colorfy(image)
@@ -83,6 +88,8 @@ def filterify(image):
         image = chops(image)
     elif r == 10:
         image = color_shift(image)
+    elif r == 11:
+        image = random_gradient(image)
     else:
         pass
 
@@ -130,9 +137,30 @@ def draw_lines(image):
     #left
     for i in range(0, image.size[1], randrange(50,image.size[0])):
         draw.line((0,i) + (image.size[0]/2,image.size[1]/2), width = randrange(1,9),fill=line_color)
-        
 
     return image
+
+def random_gradient(image):
+    img = Image.new('RGB',(image.width,image.height),"#FFFFFF")
+    ImageDraw.draw = ImageDraw.Draw(img)
+
+    r,g,b = randint(0,255),randint(0,255),randint(0,255)
+    dr = (randint(0,255) - r)/img.width
+    dg = (randint(0,255) - r)/img.width
+    db = (randint(0,255) - r)/img.width
+
+    for i in range(img.width):
+        r,g,b = r+dr, g+dg,b+db
+        ImageDraw.draw.line((i,0,i,img.width), fill=(int(r),int(g),int(b)))
+
+
+    star = greyscale(image)
+    star = star.convert("RGBA")
+    img = img.convert("RGBA")
+
+    blended = Image.blend(img, star, alpha=0.2)
+
+    return blended
 
 def create_new_star():
 
@@ -148,7 +176,10 @@ def create_new_star():
         alpha = randrange(110,130)
         angle += 90
 
+    star = random_gradient(star)
+
     star = filterify(star)
+    
     enhancer = ImageEnhance.Contrast(star)
 
     star = enhancer.enhance(5)
@@ -165,11 +196,6 @@ def create_new_star():
         star = chops(star)
 
     star_name = choice(descriptions) + "_" + choice(names) + str(randrange(1000)) 
-    star.save(star_name + ".png", "PNG")
+    #star.save(star_name + ".png", "PNG")
+    star.save("test.png")
     star.show()
-
-if __name__ == "__main__":
-    print("hello gravity")
-    print("generating a new star")
-    create_new_star()
-    
