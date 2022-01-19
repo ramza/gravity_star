@@ -128,14 +128,17 @@ def draw_lines(image):
 
     #top
     for i in range(0, image.size[0], randrange(50,image.size[0])):
+        line_color = choice(colors)
         draw.line((i,0) + (image.size[0]/2,image.size[1]/2), width = randrange(1,8),fill=line_color)
 
     #bottom
     for i in range(0, image.size[0], randrange(50, image.size[0])):
+        line_color = choice(colors)
         draw.line((i,image.size[1]) + (image.size[0]/2,image.size[1]/2), width = randrange(2,6),fill=line_color)
 
     #left
     for i in range(0, image.size[1], randrange(50,image.size[0])):
+        line_color = choice(colors)
         draw.line((0,i) + (image.size[0]/2,image.size[1]/2), width = randrange(1,9),fill=line_color)
 
     return image
@@ -158,7 +161,7 @@ def random_gradient(image):
     star = star.convert("RGBA")
     img = img.convert("RGBA")
 
-    blended = Image.blend(img, star, alpha=0.2)
+    blended = Image.blend(img, star, alpha=0.4)
 
     return blended
 
@@ -169,15 +172,15 @@ def create_new_star():
     
     angle = 90
     alpha = 255
-    steps = randrange(3,7)
+    steps = randrange(2,7)
 
     for i in range(steps):
         star = starify(star, image, angle, alpha)
         alpha = randrange(110,130)
         angle += 90
 
-    star = random_gradient(star)
 
+    star = random_gradient(star)
     star = filterify(star)
     
     enhancer = ImageEnhance.Contrast(star)
@@ -196,6 +199,5 @@ def create_new_star():
         star = chops(star)
 
     star_name = choice(descriptions) + "_" + choice(names) + str(randrange(1000)) 
-    #star.save(star_name + ".png", "PNG")
-    star.save("test.png")
+    star.save(star_name + ".png", "PNG")
     star.show()
